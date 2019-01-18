@@ -1,12 +1,21 @@
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
+ENV DISPLAY :0
+RUN apt update -qqy && DEBIAN_FRONTEND=noninteractive apt-get install -y locales
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_US.UTF-8
+
+ENV LANG en_US.UTF-8 
+ENV LANGUAGE en_US:en  
+ENV LC_ALL en_US.UTF-8   
 RUN apt-get update -qqy \
     && apt-get -qqy install apt-transport-https ca-certificates curl gnupg2 software-properties-common
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
     && curl -fsSL https://download.docker.com/linux/debian/gpg |  apt-key add - \ 
     && add-apt-repository  "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 RUN apt-get update -qqy \
-    && apt-get -qqy install docker-ce xorg xserver-xorg-input-libinput wget git zsh make gcc sudo dh-autoreconf x11-xserver-utils libxcb1-dev \
+    && apt-get -qqy install docker-ce xorg dbus-x11 xserver-xorg-input-libinput xserver-xorg-input-all wget git zsh make gcc sudo dh-autoreconf x11-xserver-utils libxcb1-dev \
               libxcb-keysyms1-dev libpango1.0-dev \
               libxcb-util0-dev libxcb-icccm4-dev libyajl-dev \
               libstartup-notification0-dev libxcb-randr0-dev \
