@@ -8,8 +8,9 @@ then
         /usr/bin/dbus-daemon --system &
 	udevadm monitor --kernel --env &
 	udevadm monitor --udev --env &
-#        udevadm trigger --action=change
 fi
 
 /lib/systemd/systemd-udevd &
-/usr/bin/startx
+/usr/bin/startx &
+udevadm trigger --action=change
+tail -f /dev/null
