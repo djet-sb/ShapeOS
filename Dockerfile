@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV DISPLAY :0
-RUN apt update -qqy && DEBIAN_FRONTEND=noninteractive apt-get install -y locales
+RUN apt update -qqy && apt upgrade -y && DEBIAN_FRONTEND=noninteractive apt-get install -y locales
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
@@ -30,6 +30,29 @@ RUN apt-get update -qqy \
        python-xcbgen xcb-proto libxcb-xrm-dev libasound2-dev \
        libmpdclient-dev libiw-dev libcurl4-openssl-dev libpulse-dev libxcb-composite0-dev xcb libxcb-ewmh2
 
+# SystemD
+RUN cd /lib/systemd/system/sysinit.target.wants/ && \
+		ls | grep -v systemd-tmpfiles-setup.service | xargs rm -f && \
+		rm -f /lib/systemd/system/sockets.target.wants/*udev* && \
+		systemctl mask -- \
+			tmp.mount \
+			etc-hostname.mount \
+			etc-hosts.mount \
+			etc-resolv.conf.mount \
+			-.mount \
+			swap.target \
+			getty.target \
+			getty-static.service \
+			dev-mqueue.mount \
+			cgproxy.service \
+			systemd-tmpfiles-setup-dev.service \
+			systemd-remount-fs.service \
+			systemd-ask-password-wall.path \
+			systemd-logind.service && \
+		systemctl set-default multi-user.target || true
+
+
+
 # Install i3wm-gaps
 RUN cd /tmp/ \
     && git clone https://www.github.com/Airblader/i3 i3-gaps && cd i3-gaps \
@@ -43,7 +66,7 @@ RUN wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/i
 
 RUN  git clone https://github.com/jaagr/polybar.git && cd polybar && ./build.sh && cd .. && rm -rf polybar
 # clean
-RUN  apt remove -y *-dev
+RUN  apt remove -y *-dev && apt autoremove -y  && apt clean
 
 
 ADD ./i3wm-config /etc/i3/config
@@ -51,4 +74,43 @@ ADD ./launch.sh /root/launch.sh
 ADD ./polybar_config /root/.config/polybar/config
 ADD ./xorg-xinitrc /root/.xinitrc
 ADD entrypoint.sh /entrypoint.sh
-CMD ["/entrypoint.sh"]
+
+# SystemD
+RUN cd /lib/systemd/system/sysinit.target.wants/ && \
+                ls | grep -v systemd-tmpfiles-setup.service | xargs rm -f && \
+                rm -f /lib/systemd/system/sockets.target.wants/*udev* && \
+                systemctl mask -- \
+                        tmp.mount \
+                        etc-hostname.mount \
+                        etc-hosts.mount \
+                        etc-resolv.conf.mount \
+                        -.mount \
+                        swap.target \
+                        getty.target \
+                        getty-static.service \
+                        dev-mqueue.mount \
+                        cgproxy.service \
+                        systemd-tmpfiles-setup-dev.service \
+                        systemd-remount-fs.service \
+                        systemd-ask-password-wall.path \
+                        systemd-logind.service && \
+                systemctl set-default multi-user.target || true
+
+RUN sed -ri /etc/systemd/journald.conf \
+			-e 's!^#?Storage=.*!Storage=volatile!'
+ADD container-boot.service /etc/systemd/system/container-boot.service
+RUN mkdir -p /etc/container-boot.d && \
+		systemctl enable container-boot.service
+
+
+
+# run stuff
+ADD configurator.sh configurator_dumpenv.sh /root/
+ADD configurator.service configurator_dumpenv.service /etc/systemd/system/
+RUN chmod 700 /root/configurator.sh /root/configurator_dumpenv.sh && \
+		systemctl enable configurator.service configurator_dumpenv.service
+
+VOLUME [ "/sys/", "/var/run/docker.sock", "/dev", "/tmp" ]
+CMD ["/lib/systemd/systemd"]
+
+#CMD ["/entrypoint.sh"]
