@@ -1,1 +1,2 @@
+udevadm trigger --action=change
 exec /usr/bin/i3

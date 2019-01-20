@@ -1,0 +1,15 @@
+[Unit]
+Description=Start UDEV services
+ConditionFileIsExecutable=/usr/bin/startx
+Requires=configurator_dumpenv.service
+After=configurator_dumpenv.service
+
+[Service]
+Type=udev
+ExecStart=/lib/systemd/systemd-udevd
+TimeoutSec=0
+StandardOutput=inherit
+RemainAfterExit=yes
+
+[Install]
+WantedBy=basic.target
