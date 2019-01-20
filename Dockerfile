@@ -90,7 +90,6 @@ ADD configurator.service configurator_dumpenv.service startx.service udev.servic
 RUN chmod 700 /root/configurator.sh /root/configurator_dumpenv.sh && \
 		systemctl enable configurator.service configurator_dumpenv.service startx.service udev.service
 
-VOLUME [ "/sys/", "/var/run/docker.sock", "/dev", "/tmp" ]
 CMD ["/lib/systemd/systemd"]
 
 #CMD ["/entrypoint.sh"]
