@@ -13,4 +13,7 @@ do
 
 	perl -pe 's/%%([^%]+)%%/$ENV{$1}/' < "$conffile.tmpl" > "$conffile"
 done
-
+if [ -f /docker.sock ]
+then
+	ln -s /docker.sock /var/run/docker.sock
+fi
