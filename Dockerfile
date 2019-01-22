@@ -86,9 +86,9 @@ RUN mkdir -p /etc/container-boot.d && \
 
 # run stuff
 ADD configurator.sh configurator_dumpenv.sh /root/
-ADD configurator.service configurator_dumpenv.service startx.service udev.service /etc/systemd/system/
+ADD configurator.service configurator_dumpenv.service startx.service udev.service systemd-logind.service /etc/systemd/system/
 RUN chmod 700 /root/configurator.sh /root/configurator_dumpenv.sh && \
-		systemctl enable configurator.service configurator_dumpenv.service startx.service udev.service
+		systemctl enable configurator.service configurator_dumpenv.service startx.service udev.service systemd-logind.service
 
 CMD ["/lib/systemd/systemd"]
 

@@ -1,0 +1,15 @@
+[Unit]
+Description=Systemd Loggind
+ConditionFileIsExecutable=/lib/systemd/systemd-logind
+Requires=configurator_dumpenv.service
+After=configurator_dumpenv.service
+
+[Service]
+Type=x11org
+ExecStart=/lib/systemd/systemd-logind
+TimeoutSec=0
+StandardOutput=inherit
+RemainAfterExit=yes
+
+[Install]
+WantedBy=basic.target
