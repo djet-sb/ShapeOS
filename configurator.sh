@@ -17,3 +17,6 @@ if [ -S /docker.sock ]
 then
 	ln -s /docker.sock /var/run/docker.sock
 fi
+#Add user
+useradd --user-group --create-home --shell /bin/zsh --home-dir /home/$USER  $USER &> /dev/null
+
