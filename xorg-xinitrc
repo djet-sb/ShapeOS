@@ -1,2 +1,3 @@
-udevadm trigger --action=change
-exec /usr/bin/i3
+#udevadm trigger --action=change
+#exec /usr/bin/i3
+exec /usr/sbin/lightdm
