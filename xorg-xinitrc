@@ -1,3 +1,6 @@
 udevadm trigger --action=change
-exec /usr/bin/i3
-#exec /usr/sbin/lightdm
+
+cp /root/.Xauthority /home/${USER}/
+export XAUTHORITY=/home/${USER}/.Xauthority
+export DISAPLY=:0
+su --preserve-environment -c /usr/bin/i3 ${USER}
