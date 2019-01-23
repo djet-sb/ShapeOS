@@ -15,7 +15,7 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
     && curl -fsSL https://download.docker.com/linux/debian/gpg |  apt-key add - \ 
     && add-apt-repository  "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 RUN apt-get update -qqy \
-    && apt-get -qqy install vim xserver-xephyr lightdm i3blocks docker-ce-cli xorg dbus-x11 \ 
+    && apt-get -qqy install vim xserver-xephyr ubuntu-wallpapers i3blocks docker-ce-cli xorg dbus-x11 \ 
        xserver-xorg-input-libinput xserver-xorg-input-all wget git zsh \
        make gcc sudo dh-autoreconf x11-xserver-utils libxcb1-dev \
        libxcb-keysyms1-dev libpango1.0-dev \
