@@ -1,12 +1,12 @@
 [Unit]
 Description=Start X11 services
-ConditionFileIsExecutable=/usr/bin/startx
-Requires=configurator_dumpenv.service
-After=configurator_dumpenv.service
+ConditionFileIsExecutable=/usr/local/bin/startX.sh
+Requires=configurator.service
+After=configurator.service
 
 [Service]
 Type=x11org
-ExecStart=/usr/bin/startx
+ExecStart=/usr/local/bin/startX.sh
 TimeoutSec=0
 StandardOutput=inherit
 RemainAfterExit=yes

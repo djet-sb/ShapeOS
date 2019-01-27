@@ -17,6 +17,8 @@ if [ -S /docker.sock ]
 then
 	ln -s /docker.sock /var/run/docker.sock
 fi
+# udev
+udevadm trigger --action=change
 #Add user
 useradd --user-group --create-home --shell /bin/zsh --home-dir /home/$USER  $USER &> /dev/null
-
+usermod -a -G tty,video,audio $USER 

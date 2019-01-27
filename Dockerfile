@@ -92,9 +92,9 @@ RUN chmod 700 /root/configurator.sh /root/configurator_dumpenv.sh && \
 
 # Add configs
 
-ADD ./i3wm-config /etc/i3/config
 ADD ./launch.sh /root/launch.sh
 ADD ./polybar_config /root/.config/polybar/config
+ADD root/ / 
 #ADD ./xorg-xinitrc /root/.xinitrc
 
 CMD ["/lib/systemd/systemd"]
