@@ -25,7 +25,7 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
 
 # Install primary apps 
 RUN apt-get update -qqy  \
-   && apt-get -qqy install zsh vim wget git i3blocks sudo docker xorg  xcb libxcb-ewmh2 \ 
+   && apt-get -qqy install zsh vim wget git i3blocks sudo docker-ce xorg  xcb libxcb-ewmh2 \ 
       dbus-x11 xserver-xorg-input-libinput xserver-xorg-input-all  dh-autoreconf x11-xserver-utils
     
 # Run make
