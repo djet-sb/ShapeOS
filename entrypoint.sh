@@ -9,8 +9,5 @@ then
 	udevadm monitor --kernel --env &
 	udevadm monitor --udev --env &
 fi
-
-/lib/systemd/systemd-udevd &
-/usr/bin/startx &
-udevadm trigger --action=change
-tail -f /dev/null
+/lib/systemd/systemd & 
+/usr/bin/startx 
