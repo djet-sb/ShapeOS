@@ -15,7 +15,7 @@ do
 done
 if [ -S /docker.sock ]
 then
-	ln -s /docker.sock /var/run/docker.sock
+	ln -sf /docker.sock /var/run/docker.sock
 fi
 # udev
 udevadm trigger --action=change
