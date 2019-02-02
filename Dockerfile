@@ -55,6 +55,13 @@ RUN apt-get update -qqy \
    # Clean
    && apt-get remove -y *-dev && apt-get autoremove -y  && apt-get clean
 
+# Install Syncthing
+RUN curl -s https://syncthing.net/release-key.txt | sudo apt-key add - \
+    && echo "deb https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list \
+    && apt-get update -qqy \
+    && apt-get -qqy install syncthing
+
+
 # SystemD
 RUN cd /lib/systemd/system/sysinit.target.wants/ && \
       ls | grep -v systemd-tmpfiles-setup.service | xargs rm -f && \

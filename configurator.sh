@@ -22,5 +22,9 @@ udevadm trigger --action=change
 #Add user
 useradd --user-group --create-home --shell /bin/zsh --home-dir /home/$USER  $USER &> /dev/null
 usermod -a -G tty,video,audio $USER 
+chown -R ${USER}. /custom
+#systemctl enable syncthing@${USER}.service
+#systemctl start syncthing@${USER}.service
+
 #Add sudo
 echo "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/users
