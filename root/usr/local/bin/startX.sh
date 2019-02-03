@@ -1,9 +1,10 @@
 #!/bin/sh
 su -c '/usr/bin/X' ${USER} &
 sleep 5
-if [ -f ~/first.start ]
+if [ -f /home/${USER}/first.start ]
 then
-	dconf load /org/gnome/terminal/legacy/profiles:/ < /usr/share/shapre-os/user-template/ShapeOS-theme.dconf
+	dconf load /org/gnome/terminal/ < /usr/share/shapre-os/user-template/ShapeOS-theme.dconf
+	rm /home/${USER}/first.start
 fi
 	#!!!! Need fix it
 su -c '/usr/bin/i3' ${USER}
