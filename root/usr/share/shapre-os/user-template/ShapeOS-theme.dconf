@@ -1,0 +1,18 @@
+[/]
+list=['b1dcc9dd-5262-4d8d-a863-c897e6d979b9', 'eb699923-c821-4fb9-8f13-adc4b3d22dd7']
+default='eb699923-c821-4fb9-8f13-adc4b3d22dd7'
+
+[:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-color='rgb(0,0,0)'
+scrollbar-policy='never'
+use-theme-colors=false
+foreground-color='rgb(84,200,255)'
+
+[:eb699923-c821-4fb9-8f13-adc4b3d22dd7]
+background-color='rgb(17,17,17)'
+scroll-on-output=true
+scrollbar-policy='never'
+foreground-color='rgb(0,194,255)'
+scrollback-unlimited=true
+visible-name='ShapeOS'
+use-theme-colors=false

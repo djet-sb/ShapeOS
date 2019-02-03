@@ -37,6 +37,7 @@ else
 	ln -sf /opt/user_data/${USER} /home/${USER}
 	mkdir -p /home/${USER}/.config/
 #	ln -sf /opt/user_data/syncthing/${USER}/.config/syncthing /home/${USER}/.config/syncthing
+        /usr/share/shapre-os/user-template/apply.sh 
 	chown -R ${USER}. /opt/user_data/${USER}
 fi
 systemctl enable syncthing@${USER}.service

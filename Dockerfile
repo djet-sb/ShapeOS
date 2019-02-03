@@ -25,8 +25,9 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
 
 # Install primary apps 
 RUN apt-get update -qqy  \
-   && apt-get -qqy install zsh vim wget git i3blocks sudo docker-ce xorg  xcb libxcb-ewmh2 \ 
-      dbus-x11 xserver-xorg-input-libinput xserver-xorg-input-all  dh-autoreconf x11-xserver-utils
+   && apt-get -qqy install zsh vim wget git i3blocks sudo docker-ce xorg  xcb libxcb-ewmh2 fonts-powerline \ 
+      dbus-x11 xserver-xorg-input-libinput xserver-xorg-input-all  dh-autoreconf x11-xserver-utils python-pip \
+      dconf-cli
     
 # Run make
 RUN apt-get update -qqy \
@@ -61,6 +62,8 @@ RUN curl -s https://syncthing.net/release-key.txt | sudo apt-key add - \
     && apt-get update -qqy \
     && apt-get -qqy install syncthing
 
+# Add configs
+ADD root/ / 
 
 # SystemD
 RUN cd /lib/systemd/system/sysinit.target.wants/ && \
@@ -87,22 +90,10 @@ RUN cd /lib/systemd/system/sysinit.target.wants/ && \
 RUN sed -ri /etc/systemd/journald.conf \
       -e 's!^#?Storage=.*!Storage=volatile!'
 
-ADD container-boot.service /etc/systemd/system/container-boot.service
 RUN mkdir -p /etc/container-boot.d && \
       systemctl enable container-boot.service
 
-# run stuff
-ADD configurator.sh configurator_dumpenv.sh /root/
-ADD configurator.service configurator_dumpenv.service startx.service udev.service systemd-logind.service /etc/systemd/system/
-RUN chmod 700 /root/configurator.sh /root/configurator_dumpenv.sh && \
-                systemctl enable configurator.service configurator_dumpenv.service startx.service udev.service systemd-logind.service
-
-# Add configs
-
-ADD ./launch.sh /root/launch.sh
-ADD ./polybar_config /root/.config/polybar/config
-ADD root/ / 
-#ADD ./xorg-xinitrc /root/.xinitrc
+RUN systemctl enable configurator.service configurator_dumpenv.service startx.service udev.service systemd-logind.service
 
 CMD ["/lib/systemd/systemd"]
 

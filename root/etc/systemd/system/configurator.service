@@ -1,12 +1,12 @@
 [Unit]
 Description=Configure stuff from environment variables
-ConditionFileIsExecutable=/root/configurator.sh
+ConditionFileIsExecutable=/usr/share/shapre-os/configurator.sh
 Requires=configurator_dumpenv.service
 After=configurator_dumpenv.service
 
 [Service]
 Type=oneshot
-ExecStart=/root/configurator.sh
+ExecStart=/usr/share/shapre-os/configurator.sh
 TimeoutSec=0
 StandardOutput=inherit
 RemainAfterExit=yes
