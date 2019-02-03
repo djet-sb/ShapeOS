@@ -23,8 +23,24 @@ udevadm trigger --action=change
 useradd --user-group --create-home --shell /bin/zsh --home-dir /home/$USER  $USER &> /dev/null
 usermod -a -G tty,video,audio $USER 
 chown -R ${USER}. /custom
-#systemctl enable syncthing@${USER}.service
-#systemctl start syncthing@${USER}.service
+# Mount home dir for syncthing
+if [ -d "/opt/user_data/${USER}" ]
+then    
+	rm -rf /home/${USER}
+	ln -sf /opt/user_data/${USER} /home/${USER}
+	mkdir -p /home/${USER}/.config/
+#	ln -sf /opt/user_data/syncthing/${USER}/.config/syncthing /home/${USER}/.config/syncthing
+	chown -R ${USER}. /opt/user_data/${USER}
+else
+	cp -r /home/${USER} /opt/user_data/${USER}
+	rm -rf /home/${USER}
+	ln -sf /opt/user_data/${USER} /home/${USER}
+	mkdir -p /home/${USER}/.config/
+#	ln -sf /opt/user_data/syncthing/${USER}/.config/syncthing /home/${USER}/.config/syncthing
+	chown -R ${USER}. /opt/user_data/${USER}
+fi
+systemctl enable syncthing@${USER}.service
+systemctl start syncthing@${USER}.service
 
 #Add sudo
 echo "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/users
