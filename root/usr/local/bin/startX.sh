@@ -1,5 +1,5 @@
 #!/bin/sh
-su -c '/usr/bin/X' ${USER} &
+su -c '/usr/bin/X vt4' ${USER} &
 sleep 5
 if [ -f /home/${USER}/first.start ]
 then
