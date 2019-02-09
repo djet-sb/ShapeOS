@@ -7,4 +7,6 @@ then
 	rm /home/${USER}/first.start
 fi
 	#!!!! Need fix it
-su -c '/usr/bin/i3' ${USER}
+#su -c '/usr/bin/i3' ${USER}
+su --preserve-environment -c '/usr/bin/i3 -c ~/.config/i3/config' ${USER}
+
